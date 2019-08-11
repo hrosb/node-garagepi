@@ -12,74 +12,38 @@
           type="image/x-icon" />
     <link rel="apple-touch-icon"
           href="data:image/x-icon;base64,AAABAAEAEBAAAAAAAABoBQAAFgAAACgAAAAQAAAAIAAAAAEACAAAAAAAAAEAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAgL6ABcX/AAEBLoAo6OjAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAQEBAQEAAAAAAAAAAAEBAAAAAAAAAQEAAAAAAAEAAADAwMDAwMAAAQAAAAABAADAwMDAwMDAwAEAAAABAACAgEBAQEBAwMDAAQAAAQAAgIBAQEBAQEDAwAEAAAEAAICAQEBAQEBAwMABAAABAACAgEBAQEBAQMDAAQAAAQAAgIBAQEBAQEDAwAEAAAEAAICAgEBAQEBAwMABAAAAAQAAgICAgICAgMABAAAAAAEAAACAgICAgIAAAQAAAAAAAQEAAAAAAAABAQAAAAAAAAAAAQEBAQEBAAAAAAAAAAAAAAAAAAAAAAAAAAAAPgfAADgBwAAwAMAAIABAACAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAEAAIABAADAAwAA4AcAAPgfAAA=" />
-    <script src="/libs/jquery-2.1.1.min.js"></script>
-    <link rel="stylesheet" href="/style.css" />
+          <script src="/libs/jquery-2.1.1.min.js"></script>
+          <link rel="stylesheet"
+          href="/style.css" />
     <title>Garasjen</title>
 </head>
 
 <body id="background">
-    <form>
+    <form id="password-form">
         <input type="password"
                id="pass" />
     </form>
 
     <div class="buttons">
-        <input type="checkbox" id="check">
-        <label for="check" class="btn">
-          <i class="y">
-             
-          </i>
+        <input type="checkbox"
+               id="door-left">
+        <label for="door-left"
+               class="checkbox-switch">
+            <i class="y"></i>
         </label>
-          
-        <input type="checkbox" id="check2" checked>
-        <label for="check2" class="btn">
-          <i class="y">
-            
-          </i>
-        </label>
-        
-      </div>
 
-    <button id="button">Garasje</button>
+        <input type="checkbox"
+               id="door-right"
+               checked>
+        <label for="door-right"
+               class="checkbox-switch">
+            <i class="y"></i>
+        </label>
+
+    </div>
 
 </body>
-
-<script>
-    $(document).ready(function () {
-
-        var existingpass = localStorage.getItem("garasjepass");
-        if (existingpass) {
-            $('form').hide();
-        }
-
-        var password = '';
-
-        $('#button').on('click', function () {
-            if (existingpass) {
-                password = existingpass;
-            }
-            else {
-                password = $('#pass').val();
-            }
-
-            console.log('clicked');
-
-            $.ajax({
-                url: "/api/clickbutton",
-                datatype: "json", // expecting JSON to be returned
-                beforeSend: function (xhr) {
-                    xhr.setRequestHeader("Authorization", "Basic " + btoa("Admin" + ":" + password));
-                },
-                success: function (data) {
-                    console.log(existingpass, data);
-                    if (existingpass === null) {
-                        localStorage.setItem('garasjepass', password);
-                    }
-                }
-            })
-        });
-    });
-</script>
+<script src="main.js"></script>
 
 <script src="/socket.io/socket.io.js"></script>
 <script>

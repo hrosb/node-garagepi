@@ -23,11 +23,10 @@ body#background {
   margin: 100px auto;
   display: flex;
   justify-content: center; }
+  .buttons input {
+    display: none; }
 
-input {
-  display: none; }
-
-.btn {
+.checkbox-switch {
   position: relative;
   display: block;
   float: left;
@@ -40,11 +39,11 @@ input {
   border-radius: 0;
   background: #F0E0D3;
   cursor: pointer; }
-  input:checked + .btn:before {
+  input:checked + .checkbox-switch:before {
     background-position: 0 200px; }
-  input:checked + .btn .y {
+  input:checked + .checkbox-switch .y {
     top: 65px; }
-  .btn:before {
+  .checkbox-switch:before {
     position: absolute;
     top: 4px;
     left: 4px;
@@ -58,7 +57,7 @@ input {
     box-shadow: inset 0 0 7px 0 rgba(0, 0, 0, 0.05), inset 0 4px 7px -2px rgba(0, 0, 0, 0.5), inset 0 0 10px rgba(255, 255, 255, 0.7), 0 0 5px rgba(255, 255, 255, 0.7);
     content: "";
     transition: background-position 0.1s ease-in-out; }
-  .btn .y {
+  .checkbox-switch .y {
     position: absolute;
     top: 4px;
     left: 35px;

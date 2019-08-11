@@ -26,16 +26,18 @@ body#background {
     margin: 100px auto;
     display: flex;
     justify-content: center;
+    input {
+        display: none;
+    }
 }
 
-input {
-    display: none;
-}
+
 
 $time: 0.1s;
 $timeFunction: ease-in-out;
 
-.btn {
+.checkbox-switch {
+
     position: relative;
     display: block;
     float: left;
