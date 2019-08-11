@@ -7,6 +7,7 @@ var app = express();
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
 var startTakingSnaps = false;
+var auth = require('./auth');
 
 require('console-stamp')(console, '[HH:MM:ss]');
 
@@ -24,13 +25,13 @@ app.get('/', function(req, res) {
 });
 
 var state = 'closed';
-app.get('/api/clickbutton', function(req, res) {
+app.get('/api/clickbutton', auth.staticUserAuth, function(req, res) {
   state = state == 'closed' ? 'open' : 'closed';
 
   // hardcode to closed for now until reed switch
   state = 'closed';
   res.setHeader('Content-Type', 'application/json');
-  res.end(state);
+  res.end('{"success" : "Updated Successfully", "status" : "'+state+'"}');
   outputSequence(7, '10', 1000);
 });
 
