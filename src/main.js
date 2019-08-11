@@ -46,6 +46,7 @@ fetch("api/door/right/status", {
 });
 
 function setButtonState(button, state){
+  console.log(button, state);
   if(state === 0){
     button.setAttribute('checked','checked');
   }
