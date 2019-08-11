@@ -12,7 +12,40 @@ var io = require("socket.io")(server);
 var startTakingSnaps = false;
 var auth = require("./auth");
 
+var rpio = require('rpio');
+
+rpio.open(40, rpio.INPUT, rpio.PULL_UP);
+
+function pollcb(pin)
+{
+        /*
+         * Wait for a small period of time to avoid rapid changes which
+         * can't all be caught with the 1ms polling frequency.  If the
+         * pin is no longer down after the wait then ignore it.
+         */
+        rpio.msleep(20);
+
+        if (rpio.read(pin))
+                return;
+
+        console.log('Button pressed on pin P%d', pin);
+}
+
+//rpio.poll(40, pollcb, rpio.POLL_DOWN);
+
+
 require("console-stamp")(console, "[HH:MM:ss]");
+
+
+var pushButton = new GPIO(21, 'in', 'both'); //use GPIO pin 17 as input, and 'both' button presses, and releases should be handled
+pushButton.watch(function (err, value) { //Watch for hardware interrupts on pushButton GPIO, specify callback function
+  if (err) { //if an error
+    console.error('There was an error', err); //output error message to console
+    return;
+  }
+  console.log(value);
+});
+
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
@@ -28,10 +61,8 @@ app.get("/", function(req, res) {
 });
 
 var state = "closed";
-
 app.get("/api/door/:side/status", auth.staticUserAuth, function(req, res) {
-  let button = new GPIO(21, 'in', 'both');
-  const value = button.readSync();
+  const value = rpio.read(40);
   res.setHeader("Content-Type", "application/json");
   res.end('{"success" : "State read", "state" : "' + value + '"}');
 });
