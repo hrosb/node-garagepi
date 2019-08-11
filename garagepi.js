@@ -2,7 +2,7 @@ var first_arg = process.argv[2];
 var path = require("path");
 var logger = require("morgan");
 var bodyParser = require("body-parser");
-if (first_arg === undefined) {
+if (first_arg !== 'dummy') {
   var GPIO = require("onoff").Gpio;
 }
 var express = require("express");
@@ -30,7 +30,7 @@ app.get("/", function(req, res) {
 var state = "closed";
 
 app.get("/api/door/:side/status", auth.staticUserAuth, function(req, res) {
-  let button = new Gpio(21, 'in', 'both');
+  let button = new GPIO(21, 'in', 'both');
   const value = button.readSync();
   res.setHeader("Content-Type", "application/json");
   res.end('{"success" : "State read", "state" : "' + value + '"}');
