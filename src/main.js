@@ -33,6 +33,9 @@ fetch("api/door/left/status", {
   console.log(response.json());
   setButtonState(leftDoorBtn, leftState);
   return response.json();
+})
+.then(function(json) {
+  console.log(json);
 });
 
 /* fetch("api/door/right/status", {
