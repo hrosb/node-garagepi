@@ -30,7 +30,7 @@ fetch("api/door/left/status", {
   headers: headers
 }) .then((response) => {
   leftState = 1;
-  console.log(response.body);
+  console.log(response.json());
   setButtonState(leftDoorBtn, leftState);
   return response.json();
 });
