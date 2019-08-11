@@ -18,7 +18,9 @@ rightDoorBtn.addEventListener("click", evt => {
   toggleDoor("right");
 });
 
-
+const headers = new Headers({
+  Authorization: "Basic " + btoa("Admin" + ":" + password)
+});
 
 fetch("api/door/left/status", {
   method: 'GET',
@@ -41,9 +43,7 @@ function toggleDoor(side) {
     password = passwordValue;
   }
 
-  const headers = new Headers({
-    Authorization: "Basic " + btoa("Admin" + ":" + password)
-  });
+
 
   fetch("api/door/" + side, {
     method: 'GET',
