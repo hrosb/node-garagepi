@@ -28,9 +28,8 @@ const headers = new Headers({
 fetch("api/door/left/status", {
   method: 'GET',
   headers: headers
-}) .then(function(response) {
-  console.log(parseInt(response.state, 10));
-  leftState = parseInt(response.state, 10);
+}) .then((response) => {
+  leftState = parseInt(response.data.state, 10);
   setButtonState(leftDoorBtn, leftState);
   return response.json();
 });
