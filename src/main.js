@@ -33,7 +33,7 @@ fetch("api/door/left/status", {
 })
 .then(function(json) {
   console.log(json);
-  leftState = 1;
+  leftState = parseInt(json.state, 10);
   setButtonState(leftDoorBtn, leftState);
 });
 
