@@ -35,7 +35,7 @@ fetch("api/door/left/status", {
   return response.json();
 });
 
-fetch("api/door/right/status", {
+/* fetch("api/door/right/status", {
   method: 'GET',
   headers: headers
 }) .then(function(response) {
@@ -44,7 +44,7 @@ fetch("api/door/right/status", {
   setButtonState(rightDoorBtn, rightState);
   return response.json();
 });
-
+ */
 function setButtonState(button, state){
   console.log(button, state);
   if(state === 0){
