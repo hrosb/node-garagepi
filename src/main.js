@@ -6,6 +6,8 @@ const passwordForm = document.getElementById("password-form");
 
 let existingPass = localStorage.getItem("garasjepass");
 let password = "";
+let leftState = 0;
+let rightState = 0;
 
 if (existingPass) {
   passwordForm.style.display = "none";
@@ -27,10 +29,30 @@ fetch("api/door/left/status", {
   method: 'GET',
   headers: headers
 }) .then(function(response) {
-  console.log(response);
+  console.log(parseInt(response.state, 10));
+  leftState = parseInt(response.state, 10);
+  setButtonState(leftDoorBtn, leftState);
   return response.json();
-})
+});
 
+fetch("api/door/right/status", {
+  method: 'GET',
+  headers: headers
+}) .then(function(response) {
+  console.log(parseInt(response.state, 10));
+  rightState = parseInt(response.state, 10);
+  setButtonState(rightDoorBtn, rightState);
+  return response.json();
+});
+
+function setButtonState(button, state){
+  if(state === 0){
+    button.setAttribute('checked','checked');
+  }
+  else{
+    button.removeAttribute('checked');
+  }
+}
 
 
 function toggleDoor(side) {

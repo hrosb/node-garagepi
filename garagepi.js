@@ -16,9 +16,6 @@ var auth = require("./auth");
 
 rpio.open(40, rpio.INPUT, rpio.PULL_UP);
 
-//rpio.poll(40, pollcb, rpio.POLL_DOWN);
-
-
 require("console-stamp")(console, "[HH:MM:ss]");
 
 
