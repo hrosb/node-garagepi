@@ -1,13 +1,18 @@
+
+var first_arg = process.argv[2]
 var path = require('path');
 var logger = require('morgan');
 var bodyParser = require('body-parser');
-var GPIO = require("onoff").Gpio;
+if(first_arg === undefined){
+  var GPIO = require("onoff").Gpio;
+}
 var express = require('express');
 var app = express();
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
 var startTakingSnaps = false;
 var auth = require('./auth');
+
 
 require('console-stamp')(console, '[HH:MM:ss]');
 

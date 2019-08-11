@@ -12,32 +12,9 @@
           type="image/x-icon" />
     <link rel="apple-touch-icon"
           href="data:image/x-icon;base64,AAABAAEAEBAAAAAAAABoBQAAFgAAACgAAAAQAAAAIAAAAAEACAAAAAAAAAEAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAgL6ABcX/AAEBLoAo6OjAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAQEBAQEAAAAAAAAAAAEBAAAAAAAAAQEAAAAAAAEAAADAwMDAwMAAAQAAAAABAADAwMDAwMDAwAEAAAABAACAgEBAQEBAwMDAAQAAAQAAgIBAQEBAQEDAwAEAAAEAAICAQEBAQEBAwMABAAABAACAgEBAQEBAQMDAAQAAAQAAgIBAQEBAQEDAwAEAAAEAAICAgEBAQEBAwMABAAAAAQAAgICAgICAgMABAAAAAAEAAACAgICAgIAAAQAAAAAAAQEAAAAAAAABAQAAAAAAAAAAAQEBAQEBAAAAAAAAAAAAAAAAAAAAAAAAAAAAPgfAADgBwAAwAMAAIABAACAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAEAAIABAADAAwAA4AcAAPgfAAA=" />
-
-    <title>Garage Door Opener</title>
-    <style type="text/css">
-        button {
-            margin: auto;
-            position: absolute;
-            width: 70%;
-            height: 25%;
-            bottom: 0;
-            top: 0;
-            right: 0;
-            left: 0;
-            font-size: 30pt;
-            font-weight: bold;
-            color: black;
-            opacity: 0.2;
-        }
-
-        body#background {
-            background: url('/images/garage.jpg') no-repeat 50% 50% fixed;
-            background-size: cover;
-            -moz-background-size: cover;
-            -o-background-size: cover;
-            -webkit-background-size: cover;
-        }
-    </style>
+    <script src="/libs/jquery-2.1.1.min.js"></script>
+    <link rel="stylesheet" href="/style.css" />
+    <title>Garasjen</title>
 </head>
 
 <body id="background">
@@ -45,18 +22,35 @@
         <input type="password"
                id="pass" />
     </form>
+
+    <div class="buttons">
+        <input type="checkbox" id="check">
+        <label for="check" class="btn">
+          <i class="y">
+             
+          </i>
+        </label>
+          
+        <input type="checkbox" id="check2" checked>
+        <label for="check2" class="btn">
+          <i class="y">
+            
+          </i>
+        </label>
+        
+      </div>
+
     <button id="button">Garasje</button>
 
 </body>
 
-<script src="/javascripts/jquery-2.1.1.min.js"></script>
 <script>
     $(document).ready(function () {
 
         var existingpass = localStorage.getItem("garasjepass");
-	if(existingpass){
-		$('form').hide();
-	}
+        if (existingpass) {
+            $('form').hide();
+        }
 
         var password = '';
 
@@ -72,15 +66,15 @@
 
             $.ajax({
                 url: "/api/clickbutton",
-		datatype: "json", // expecting JSON to be returned
+                datatype: "json", // expecting JSON to be returned
                 beforeSend: function (xhr) {
                     xhr.setRequestHeader("Authorization", "Basic " + btoa("Admin" + ":" + password));
                 },
-                success: function(data) {
+                success: function (data) {
                     console.log(existingpass, data);
                     if (existingpass === null) {
                         localStorage.setItem('garasjepass', password);
-		    }
+                    }
                 }
             })
         });
