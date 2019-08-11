@@ -9,6 +9,7 @@ let password = "";
 
 if (existingPass) {
   passwordForm.style.display = "none";
+  password = existingPass;
 }
 
 leftDoorBtn.addEventListener("click", evt => {
