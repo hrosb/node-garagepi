@@ -29,13 +29,12 @@ fetch("api/door/left/status", {
   method: 'GET',
   headers: headers
 }) .then((response) => {
-  leftState = 1;
-  console.log(response.json());
-  setButtonState(leftDoorBtn, leftState);
   return response.json();
 })
 .then(function(json) {
   console.log(json);
+  leftState = 1;
+  setButtonState(leftDoorBtn, leftState);
 });
 
 /* fetch("api/door/right/status", {
