@@ -28,14 +28,12 @@ app.get("/", function(req, res) {
 });
 
 var state = "closed";
-app.get("/api/clickbutton", auth.staticUserAuth, function(req, res) {
-  state = state == "closed" ? "open" : "closed";
 
-  // hardcode to closed for now until reed switch
-  state = "closed";
+app.get("/api/door/:side/status", auth.staticUserAuth, function(req, res) {
+  let button = new Gpio(21, 'in', 'both');
+  const value = button.readSync();
   res.setHeader("Content-Type", "application/json");
-  res.end('{"success" : "Updated Successfully", "status" : "' + state + '"}');
-  outputSequence(7, "10", 1000);
+  res.end('{"success" : "State read", "state" : "' + value + '"}');
 });
 
 app.get("/api/door/:side", auth.staticUserAuth, function(req, res) {

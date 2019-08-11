@@ -18,6 +18,18 @@ rightDoorBtn.addEventListener("click", evt => {
   toggleDoor("right");
 });
 
+
+
+fetch("api/door/left/status", {
+  method: 'GET',
+  headers: headers
+}) .then(function(response) {
+  console.log(response);
+  return response.json();
+})
+
+
+
 function toggleDoor(side) {
   const passwordValue = document.getElementById("pass").value;
 
@@ -42,7 +54,4 @@ function toggleDoor(side) {
       localStorage.setItem('garasjepass', password);
       return response.json();
     })
-    .then(function(myJson) {
-      console.log(JSON.stringify(myJson));
-    });
 }
