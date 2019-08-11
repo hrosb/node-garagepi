@@ -36,7 +36,7 @@ var state = "closed";
 app.get("/api/door/:side/status", auth.staticUserAuth, function(req, res) {
   const value = rpio.read(40);
   res.setHeader("Content-Type", "application/json");
-  res.end('{"success" : "State read", "state" : "' + value + '"}');
+  res.end('{"success" : "State read", "state" : ' + value + '}');
 });
 
 app.get("/api/door/:side", auth.staticUserAuth, function(req, res) {
