@@ -1,0 +1,9 @@
+{
+  "apps": [
+    {
+      "name": "garage-pi",
+      "script": "npm",
+      "args": "start"
+    }
+  ]
+}
