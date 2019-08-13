@@ -52,7 +52,7 @@ function takePicture(){
     return response.json();
   })
   .then(function(json) {
-    this.setPicture();
+    setPicture();
   });
 }
 
