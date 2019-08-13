@@ -131,7 +131,7 @@ function takeSnaps() {
   return autoSnapshot;
 }
 
-io.on("connection", function(socket) {
+/* io.on("connection", function(socket) {
   console.log("a user connected");
   startTakingSnaps = true;
   takeSnaps();
@@ -140,7 +140,7 @@ io.on("connection", function(socket) {
     console.log("user disconnected");
     startTakingSnaps = false;
   });
-});
+}); */
 
 var port = process.env.PORT || 8000;
 server.listen(port, function() {
