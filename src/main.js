@@ -3,6 +3,7 @@ import style from "./style.scss";
 const leftDoorBtn = document.getElementById("door-left");
 const rightDoorBtn = document.getElementById("door-right");
 const passwordForm = document.getElementById("password-form");
+const pictureTrigger = document.querySelector('.picture-trigger');
 
 let existingPass = localStorage.getItem("garasjepass");
 let password = "";
@@ -20,6 +21,10 @@ leftDoorBtn.addEventListener("click", evt => {
 rightDoorBtn.addEventListener("click", evt => {
   toggleDoor("right");
 });
+pictureTrigger.addEventListener("click", evt => {
+  takePicture();
+})
+
 
 const headers = new Headers({
   Authorization: "Basic " + btoa("Admin" + ":" + password)
@@ -36,6 +41,31 @@ fetch("api/door/left/status", {
   leftState = parseInt(json.state, 10);
   setButtonState(leftDoorBtn, leftState);
 });
+
+setPicture();
+
+function takePicture(){
+  fetch("api/garage/picture", {
+    method: 'GET',
+    headers: headers
+  }) .then((response) => {
+    return response.json();
+  })
+  .then(function(json) {
+    this.setPicture();
+  });
+}
+
+function setPicture(){
+  var t = new Date().getTime();
+  var url = "url(/images/garage.jpg?t=" + t + ") no-repeat 50% 50% fixed";
+  $("#background").css("background", url);
+  $("#background").css("background-size", "cover");
+  $("#background").css("-moz-background-size", "cover");
+  $("#background").css("-webkit-background-size", "cover");
+}
+
+
 
 /* fetch("api/door/right/status", {
   method: 'GET',

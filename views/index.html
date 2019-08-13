@@ -42,21 +42,10 @@
 
     </div>
 
+    <div class="actions">
+        <button class="picture-trigger">Ta bilde</button>
+    </div>
+
 </body>
 <script src="main.js"></script>
-
-<script src="/socket.io/socket.io.js"></script>
-<script>
-    var socket = io();
-    socket.on('snapshot', function (status) {
-        var t = new Date().getTime();
-        var url = "url(/images/garage.jpg?t=" + t + ") no-repeat 50% 50% fixed";
-        console.log('load new snapshot: ' + url);
-        $("#background").css("background", url);
-        $("#background").css("background-size", "cover");
-        $("#background").css("-moz-background-size", "cover");
-        $("#background").css("-webkit-background-size", "cover");
-    });
-</script>
-
 </html>

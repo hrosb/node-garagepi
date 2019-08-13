@@ -5,6 +5,7 @@ var bodyParser = require("body-parser");
 if (first_arg !== 'dummy') {
   var GPIO = require("onoff").Gpio;
   var rpio = require('rpio');
+  rpio.open(40, rpio.INPUT, rpio.PULL_UP);
 }
 var express = require("express");
 var app = express();
@@ -14,7 +15,6 @@ var startTakingSnaps = false;
 var auth = require("./auth");
 
 
-rpio.open(40, rpio.INPUT, rpio.PULL_UP);
 
 require("console-stamp")(console, "[HH:MM:ss]");
 
@@ -39,6 +39,13 @@ app.get("/api/door/:side/status", auth.staticUserAuth, function(req, res) {
   res.end('{"success" : "State read", "state" : ' + value + '}');
 });
 
+app.get("/api/garage/picture", auth.staticUserAuth, function(req, res) {
+  takePicture();
+  setTimeout(() => {
+    res.end('{"success" : "Picture taken"}');
+  }, 1000);
+});
+
 app.get("/api/door/:side", auth.staticUserAuth, function(req, res) {
   
   side = req.params.side;
@@ -52,11 +59,6 @@ app.get("/api/door/:side", auth.staticUserAuth, function(req, res) {
   toggleDoor(side);
 });
 
-app.get("/api/status", function(req, res) {
-  res.setHeader("Content-Type", "application/json");
-  res.end(JSON.stringify({ state: state }));
-  console.log("returning state: " + state);
-});
 
 function outputSequence(pin, seq, timeout) {
   var gpio = new GPIO(4, "out");
@@ -109,6 +111,19 @@ app.use(function(req, res, next) {
   err.status = 404;
   next(err);
 });
+
+function takePicture(){
+  var imgPath = path.join(__dirname, "public/images");
+  var cmd = "raspistill -w 640 -h 480 -q 80 -o " + imgPath + "/garage.jpg";
+  var exec = require("child_process").exec;
+  exec(cmd, function(error, stdout, stderr) {
+    if (error !== null) {
+      console.log("exec error: " + error);
+      return;
+    }
+    console.log("snapshot created...");
+  });
+}
 
 function takeSnaps() {
   var autoSnapshot = setTimeout(function() {

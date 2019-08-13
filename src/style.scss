@@ -2,19 +2,24 @@ body {
     background: #111;
 }
 
-button {
-    margin: auto;
-    position: absolute;
-    width: 70%;
-    height: 25%;
-    bottom: 0;
-    top: 0;
-    right: 0;
-    left: 0;
-    font-size: 20pt;
-    font-weight: bold;
-    color: black;
-    opacity: 0.5;
+$btn-color: rgb(117, 119, 10);
+
+.actions{
+    display: flex;
+    justify-content: center;
+    button {
+        margin: auto;
+        color: $btn-color;
+        border: 3px solid $btn-color;
+        padding: 10px 20px;
+        font-size: 20px;
+        background: transparent;
+        cursor: pointer;
+        &:hover{
+            color: hotpink;
+            border-color: hotpink;
+        }
+    }  
 }
 
 body#background {
