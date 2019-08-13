@@ -126,7 +126,7 @@ function takeSnaps() {
         takeSnaps();
       }
     });
-  }, 0);
+  }, 30000);
 
   return autoSnapshot;
 }
