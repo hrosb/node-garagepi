@@ -30,7 +30,7 @@ const headers = new Headers({
   Authorization: "Basic " + btoa("Admin" + ":" + password)
 });
 
-fetch("api/door/left/status", {
+fetch("api/door/right/status", {
   method: 'GET',
   headers: headers
 }) .then((response) => {
@@ -38,8 +38,8 @@ fetch("api/door/left/status", {
 })
 .then(function(json) {
   console.log(json);
-  leftState = parseInt(json.state, 10);
-  setButtonState(leftDoorBtn, leftState);
+  rightState = parseInt(json.state, 10);
+  setButtonState(rightDoorBtn, rightState);
 });
 
 setPicture();
@@ -52,7 +52,9 @@ function takePicture(){
     return response.json();
   })
   .then(function(json) {
-    setPicture();
+    setTimeout(() => {
+      setPicture();
+    }, 200);
   });
 }
 
@@ -79,7 +81,7 @@ function setPicture(){
  */
 function setButtonState(button, state){
   console.log(button, state);
-  if(state === 0){
+  if(state === 1){
     button.setAttribute('checked','checked');
   }
   else{
