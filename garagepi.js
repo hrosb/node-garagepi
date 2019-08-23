@@ -11,14 +11,9 @@ if (first_arg !== 'dummy') {
 var express = require("express");
 var app = express();
 var server = require("http").Server(app);
-var io = require("socket.io")(server);
-var startTakingSnaps = false;
 var auth = require("./auth");
 
-
-
 require("console-stamp")(console, "[HH:MM:ss]");
-
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
@@ -128,26 +123,6 @@ function takePicture(){
   });
 }
 
-function takeSnaps() {
-  var autoSnapshot = setTimeout(function() {
-    var imgPath = path.join(__dirname, "public/images");
-    var cmd = "raspistill -w 640 -h 480 -q 80 -o " + imgPath + "/garage.jpg";
-    var exec = require("child_process").exec;
-    exec(cmd, function(error, stdout, stderr) {
-      if (error !== null) {
-        console.log("exec error: " + error);
-        return;
-      }
-      io.emit("snapshot", "ready");
-      console.log("snapshot created...");
-      if (startTakingSnaps) {
-        takeSnaps();
-      }
-    });
-  }, 30000);
-
-  return autoSnapshot;
-}
 
 /* io.on("connection", function(socket) {
   console.log("a user connected");

@@ -76,10 +76,8 @@ function takePicture(){
 function setPicture(){
   var t = new Date().getTime();
   var url = "url(/images/garage.jpg?t=" + t + ") no-repeat 50% 50% fixed";
-  $("#background").css("background", url);
-  $("#background").css("background-size", "cover");
-  $("#background").css("-moz-background-size", "cover");
-  $("#background").css("-webkit-background-size", "cover");
+  const backgroundDiv = document.getElementById("background");
+  backgroundDiv.style.background = url;
 }
 
 
@@ -107,9 +105,6 @@ function setButtonState(button, state){
 
 function toggleDoor(side) {
   const passwordValue = document.getElementById("pass").value;
-
-  console.log(existingPass);
-  console.log(passwordValue);
   if (existingPass) {
     password = existingPass;
   } else {
