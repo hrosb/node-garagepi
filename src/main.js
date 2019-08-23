@@ -55,6 +55,13 @@ fetch("api/door/right/status", {
   if(rightDoorOpen && !rightDoorClosed){
     setButtonState(rightDoorBtn, 0);
   }  
+
+
+  let result = "rightDoorOpen: " + rightDoorOpen + "<br>rightDoorClosed: " + rightDoorClosed;
+
+  document.querySelector('.result').innerHTML = result;
+
+
 });
 
 setPicture();
@@ -75,9 +82,9 @@ function takePicture(){
 
 function setPicture(){
   var t = new Date().getTime();
-  var url = "url(/images/garage.jpg?t=" + t + ") no-repeat 50% 50% fixed";
+  var url = "url(/images/garage.jpg?t=" + t + ")";
   const backgroundDiv = document.getElementById("background");
-  backgroundDiv.style.background = url;
+  backgroundDiv.style.backgroundImage = url;
 }
 
 
