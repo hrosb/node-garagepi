@@ -7,8 +7,8 @@ const pictureTrigger = document.querySelector('.picture-trigger');
 
 let existingPass = localStorage.getItem("garasjepass");
 let password = "";
-let leftState = 0;
-let rightState = 0;
+let rightDoorClosed = 0;
+let rightDoorOpen = 0;
 
 if (existingPass) {
   passwordForm.style.display = "none";
@@ -38,8 +38,9 @@ fetch("api/door/right/status", {
 })
 .then(function(json) {
   console.log(json);
-  rightState = parseInt(json.state, 10);
-  setButtonState(rightDoorBtn, rightState);
+  rightDoorOpen = parseInt(json.rightDoorOpen, 10);
+  rightDoorClosed = parseInt(json.rightDoorClosed, 10);
+  setButtonState(rightDoorBtn, rightDoorOpen);
 });
 
 setPicture();
