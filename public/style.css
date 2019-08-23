@@ -29,6 +29,9 @@ body {
   .buttons input {
     display: none; }
 
+.result {
+  color: red; }
+
 .checkbox-switch {
   position: relative;
   display: block;
