@@ -50,10 +50,10 @@ fetch("api/door/right/status", {
   rightDoorOpen = intIsZero(parseInt(json.rightDoorOpen, 10));
   rightDoorClosed = intIsZero(parseInt(json.rightDoorClosed, 10));
   if(rightDoorClosed && !rightDoorOpen){
-    setButtonState(rightDoorBtn, rightDoorClosed);
+    setButtonState(rightDoorBtn, 1);
   }
   if(rightDoorOpen && !rightDoorClosed){
-    setButtonState(rightDoorBtn, rightDoorOpen);
+    setButtonState(rightDoorBtn, 0);
   }  
 });
 
