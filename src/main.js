@@ -30,6 +30,15 @@ const headers = new Headers({
   Authorization: "Basic " + btoa("Admin" + ":" + password)
 });
 
+function intIsZero(int){
+  if(int === 0){
+    return true;
+  }
+  if(int === 1){
+    return false;
+  }
+}
+
 fetch("api/door/right/status", {
   method: 'GET',
   headers: headers
@@ -38,9 +47,14 @@ fetch("api/door/right/status", {
 })
 .then(function(json) {
   console.log(json);
-  rightDoorOpen = parseInt(json.rightDoorOpen, 10);
-  rightDoorClosed = parseInt(json.rightDoorClosed, 10);
-  setButtonState(rightDoorBtn, rightDoorOpen);
+  rightDoorOpen = intIsZero(parseInt(json.rightDoorOpen, 10));
+  rightDoorClosed = intIsZero(parseInt(json.rightDoorClosed, 10));
+  if(rightDoorClosed && !rightDoorOpen){
+    setButtonState(rightDoorBtn, rightDoorClosed);
+  }
+  if(rightDoorOpen && !rightDoorClosed){
+    setButtonState(rightDoorBtn, rightDoorOpen);
+  }  
 });
 
 setPicture();
