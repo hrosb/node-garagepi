@@ -39,7 +39,7 @@ function intIsZero(int){
   }
 }
 
-fetch("api/door/right/status", {
+fetch("api/doors/status", {
   method: 'GET',
   headers: headers
 }) .then((response) => {
@@ -49,6 +49,7 @@ fetch("api/door/right/status", {
   console.log(json);
   rightDoorOpen = intIsZero(parseInt(json.rightDoorOpen, 10));
   rightDoorClosed = intIsZero(parseInt(json.rightDoorClosed, 10));
+  leftDoorClosed = intIsZero(parseInt(json.leftDoorClosed, 10));
   if(rightDoorClosed && !rightDoorOpen){
     setButtonState(rightDoorBtn, 1);
   }
@@ -57,7 +58,7 @@ fetch("api/door/right/status", {
   }  
 
 
-  let result = "rightDoorOpen: " + rightDoorOpen + "<br>rightDoorClosed: " + rightDoorClosed;
+  let result = "rightDoorOpen: " + rightDoorOpen + "<br>rightDoorClosed: " + rightDoorClosed + "<br>leftDoorClosed: " + leftDoorClosed;
 
   document.querySelector('.result').innerHTML = result;
 
