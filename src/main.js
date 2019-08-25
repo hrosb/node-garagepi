@@ -10,6 +10,7 @@ let password = "";
 let rightDoorClosed = 0;
 let rightDoorOpen = 0;
 let leftDoorClosed = 0;
+let leftDoorOpen = 0;
 
 if (existingPass) {
   passwordForm.style.display = "none";
@@ -59,7 +60,7 @@ fetch("api/doors/status", {
   }  
 
 
-  let result = "rightDoorOpen: " + rightDoorOpen + "<br>rightDoorClosed: " + rightDoorClosed + "<br>leftDoorClosed: " + leftDoorClosed;
+  let result = "rightDoorOpen: " + rightDoorOpen + "<br>rightDoorClosed: " + rightDoorClosed + "<br>leftDoorClosed: " + leftDoorClosed + "<br>leftDoorOpen: " + leftDoorOpen;
 
   document.querySelector('.result').innerHTML = result;
 

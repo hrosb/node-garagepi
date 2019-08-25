@@ -8,6 +8,7 @@ if (first_arg !== 'dummy') {
   rpio.open(40, rpio.INPUT, rpio.PULL_UP);
   rpio.open(36, rpio.INPUT, rpio.PULL_UP);
   rpio.open(32, rpio.INPUT, rpio.PULL_UP);
+  rpio.open(16, rpio.INPUT, rpio.PULL_UP);
 }
 var express = require("express");
 var app = express();
@@ -34,9 +35,10 @@ app.get("/api/doors/status", auth.staticUserAuth, function(req, res) {
   const rightDoorOpen = rpio.read(40);
   const rightDoorClosed = rpio.read(36);
   const leftDoorClosed = rpio.read(32);
+  const leftDoorOpen = rpio.read(16);
   
   res.setHeader("Content-Type", "application/json");
-  res.end('{"success" : "State read", "rightDoorOpen" : ' + rightDoorOpen + ', "rightDoorClosed" : ' + rightDoorClosed + ', "leftDoorClosed" : ' + leftDoorClosed + '}');
+  res.end('{"success" : "State read", "rightDoorOpen" : ' + rightDoorOpen + ', "rightDoorClosed" : ' + rightDoorClosed + ', "leftDoorClosed" : ' + leftDoorClosed + ', "leftDoorOpen" : ' + leftDoorOpen + '}');
 });
 
 app.get("/api/garage/picture", auth.staticUserAuth, function(req, res) {
