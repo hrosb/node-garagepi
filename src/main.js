@@ -9,6 +9,7 @@ let existingPass = localStorage.getItem("garasjepass");
 let password = "";
 let rightDoorClosed = 0;
 let rightDoorOpen = 0;
+let leftDoorClosed = 0;
 
 if (existingPass) {
   passwordForm.style.display = "none";
