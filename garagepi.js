@@ -6,7 +6,7 @@ if (first_arg !== 'dummy') {
   var GPIO = require("onoff").Gpio;
   var rpio = require('rpio');
   rpio.open(40, rpio.INPUT, rpio.PULL_UP);
-  rpio.open(32, rpio.INPUT, rpio.PULL_UP);
+  rpio.open(36, rpio.INPUT, rpio.PULL_UP);
 }
 var express = require("express");
 var app = express();
@@ -31,7 +31,7 @@ app.get("/", function(req, res) {
 var state = "closed";
 app.get("/api/door/:side/status", auth.staticUserAuth, function(req, res) {
   const rightDoorOpen = rpio.read(40);
-  const rightDoorClosed = rpio.read(32);
+  const rightDoorClosed = rpio.read(36);
   
   res.setHeader("Content-Type", "application/json");
   res.end('{"success" : "State read", "rightDoorOpen" : ' + rightDoorOpen + ', "rightDoorClosed" : ' + rightDoorClosed + '}');
