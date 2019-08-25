@@ -25,3 +25,8 @@ app.use(express.static(path.join(__dirname, "public")));
 app.get("/", function(req, res) {
   res.render("index.html");
 });
+
+var port = process.env.PORT || 8000;
+server.listen(port, function() {
+  console.log("GaragePi listening on port:", port);
+});
