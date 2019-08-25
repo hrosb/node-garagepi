@@ -9,6 +9,7 @@ if (first_arg !== 'dummy') {
 }
 var express = require("express");
 var app = express();
+var server = require("http").Server(app);
 var auth = require("./auth");
 
 require("console-stamp")(console, "[HH:MM:ss]");
@@ -23,10 +24,28 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public")));
 
 app.get("/", function(req, res) {
+  res.render("login.html");
+});
+
+app.get("/authenticated", function(req, res) {
   res.render("index.html");
 });
 
+
+// Start server
 var port = process.env.PORT || 8000;
 server.listen(port, function() {
   console.log("GaragePi listening on port:", port);
 });
+
+
+
+
+
+
+/* Endpoints */
+
+app.get("/api/garage/authenticate", auth.staticUserAuth, function(req, res) {
+  res.end('{"status" : "valid"}');
+});
+

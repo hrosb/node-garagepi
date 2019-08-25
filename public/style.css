@@ -1,5 +1,24 @@
 body {
-  background: #111; }
+  background: #111;
+  color: white;
+  font: 16px/23px sans-serif; }
+
+.container {
+  margin: auto;
+  max-width: 300px;
+  padding: 10px;
+  text-align: center; }
+
+input, button {
+  width: 100%;
+  padding: 10px;
+  font: 16px/23px sans-serif;
+  color: black; }
+
+button {
+  background: #155f4e;
+  border: none;
+  color: white; }
 
 .actions {
   display: flex;

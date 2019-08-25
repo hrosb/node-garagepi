@@ -4,6 +4,57 @@ const leftDoorBtn = document.getElementById("door-left");
 const rightDoorBtn = document.getElementById("door-right");
 const passwordForm = document.getElementById("password-form");
 const pictureTrigger = document.querySelector('.picture-trigger');
+const formResponse = document.querySelector('.form-response');
+
+function setHeaders(pw){
+    const headers = new Headers({
+      Authorization: "Basic " + btoa("Admin" + ":" + pw)
+    });
+    console.log(headers);
+    return headers;
+}
+
+// Login form authentication
+
+document.addEventListener("DOMContentLoaded", function(){
+  var form = document.getElementById('login-form');
+  console.log(form);
+
+  if(form){
+    form.addEventListener("submit", function(e){
+      e.preventDefault();
+
+      const headers = setHeaders(document.getElementById('pass').value);
+
+      fetch("/api/garage/authenticate", {
+        method: 'GET',
+        headers: headers
+      }) .then((response) => {
+        if(response.status === 200){
+          return response.json();
+        }
+        else { 
+          return "Feil passord..." 
+        }
+      })
+      .then(function(response) {
+        if(response.status === "valid"){
+          formResponse.innerHTML = "Flott, sender deg videre...";
+          window.location.href = '/authenticated';
+        } else{
+          formResponse.innerHTML = response;
+        }
+      });
+
+
+    })
+  }
+
+});
+
+
+
+
 
 let existingPass = localStorage.getItem("garasjepass");
 let password = "";
@@ -13,24 +64,23 @@ let leftDoorClosed = 0;
 let leftDoorOpen = 0;
 
 if (existingPass) {
-  passwordForm.style.display = "none";
+  //passwordForm.style.display = "none";
   password = existingPass;
 }
 
-leftDoorBtn.addEventListener("click", evt => {
-  toggleDoor("left");
-});
-rightDoorBtn.addEventListener("click", evt => {
-  toggleDoor("right");
-});
-pictureTrigger.addEventListener("click", evt => {
-  takePicture();
-})
+if(leftDoorBtn){
+
+  leftDoorBtn.addEventListener("click", evt => {
+    toggleDoor("left");
+  });
+  rightDoorBtn.addEventListener("click", evt => {
+    toggleDoor("right");
+  });
+  pictureTrigger.addEventListener("click", evt => {
+    takePicture();
+  })
 
 
-const headers = new Headers({
-  Authorization: "Basic " + btoa("Admin" + ":" + password)
-});
 
 function intIsZero(int){
   if(int === 0){
@@ -133,4 +183,5 @@ function toggleDoor(side) {
       localStorage.setItem('garasjepass', password);
       return response.json();
     })
+}
 }

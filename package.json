@@ -4,8 +4,8 @@
   "scripts": {
     "dev": "webpack --mode development --watch",
     "build": "webpack --mode production",
-    "start": "node ./garagepi.js",
-    "dummy": "node ./garagepi.js dummy"
+    "start": "node ./garage-server.js",
+    "dummy": "node ./garage-server dummy"
   },
   "dependencies": {
     "body-parser": "~1.8.1",
