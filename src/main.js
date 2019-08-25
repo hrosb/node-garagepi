@@ -52,6 +52,7 @@ fetch("api/doors/status", {
   rightDoorOpen = intIsZero(parseInt(json.rightDoorOpen, 10));
   rightDoorClosed = intIsZero(parseInt(json.rightDoorClosed, 10));
   leftDoorClosed = intIsZero(parseInt(json.leftDoorClosed, 10));
+  leftDoorOpen = intIsZero(parseInt(json.leftDoorOpen, 10));
   if(rightDoorClosed && !rightDoorOpen){
     setButtonState(rightDoorBtn, 1);
   }
