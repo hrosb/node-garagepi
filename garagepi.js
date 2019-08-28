@@ -17,6 +17,7 @@ var auth = require("./auth");
 
 require("console-stamp")(console, "[HH:MM:ss]");
 
+
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
 app.engine("html", require("ejs").renderFile);

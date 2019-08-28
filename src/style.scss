@@ -1,11 +1,10 @@
 body {
-
-background: #111;
+    background: #111;
     color: white;
     font: 16px/23px sans-serif;
 }
 
-.container{
+.container {
     margin: auto;
     max-width: 300px;
     padding: 10px;
@@ -18,8 +17,84 @@ input, button {
     font: 16px/23px sans-serif;
     color: black;
 }
+/* 
+.door-toggle {
+    .door {
+        transition: height 4s ease;
+        height: 107px;
+    }
 
-button{
+    &.opening {
+        text {
+            fill: orange;
+        }
+    }
+
+    &.open, &.opening {
+        .door {
+            height: 8px;
+        }
+    }
+
+    &.closing {
+        color: orange;
+    }
+
+    &.open {
+        color: red;
+    }
+
+    &.closed {
+        color: green;
+    }
+}
+ */
+
+.garage-wrapper{
+    position: relative;
+   
+}
+.garage-door-toggles{
+    position: absolute;
+    left: 15px;
+    top: 62px;
+    display: flex;
+    width: 285px;
+    .garage-door-toggle{
+        width: 135px;
+        height: 162px;
+        position: relative;
+        &--left{
+            margin-right: 15px;
+        }
+        .door{
+            height: 107px;
+            background: white;
+            transition: all 10s ease;
+        }
+        .status{
+            margin-top: 10px;
+            padding: 10px;
+            border-bottom: 2px solid;
+            display: inline-block;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+        }
+
+        &.opening {
+            color: orange;
+            .door {
+                height: 8px;
+            }
+        }
+    
+    
+
+    }
+}
+
+button {
     background: #155f4e;
     border: none;
     color: white;
@@ -27,9 +102,10 @@ button{
 
 $btn-color: rgb(117, 119, 10);
 
-.actions{
+.actions {
     display: flex;
     justify-content: center;
+
     button {
         margin: auto;
         color: $btn-color;
@@ -38,40 +114,39 @@ $btn-color: rgb(117, 119, 10);
         font-size: 20px;
         background: transparent;
         cursor: pointer;
-        &:hover{
+
+        &:hover {
             color: hotpink;
             border-color: hotpink;
         }
-    }  
+    }
 }
 
 #background {
     width: 320px;
     height: 240px;
     background-size: 100%;
-    margin:2em auto;
+    margin: 2em auto;
 }
 
 .buttons {
     margin: 50px auto;
     display: flex;
     justify-content: center;
+
     input {
         display: none;
     }
 }
 
-.result{
+.result {
     color: red;
 }
-
-
 
 $time: 10s;
 $timeFunction: ease-in-out;
 
 .checkbox-switch {
-
     position: relative;
     display: block;
     float: left;

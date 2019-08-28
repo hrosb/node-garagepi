@@ -15,6 +15,70 @@ input, button {
   font: 16px/23px sans-serif;
   color: black; }
 
+/* 
+.door-toggle {
+    .door {
+        transition: height 4s ease;
+        height: 107px;
+    }
+
+    &.opening {
+        text {
+            fill: orange;
+        }
+    }
+
+    &.open, &.opening {
+        .door {
+            height: 8px;
+        }
+    }
+
+    &.closing {
+        color: orange;
+    }
+
+    &.open {
+        color: red;
+    }
+
+    &.closed {
+        color: green;
+    }
+}
+ */
+.garage-wrapper {
+  position: relative; }
+
+.garage-door-toggles {
+  position: absolute;
+  left: 15px;
+  top: 62px;
+  display: flex;
+  width: 285px; }
+  .garage-door-toggles .garage-door-toggle {
+    width: 135px;
+    height: 162px;
+    position: relative; }
+    .garage-door-toggles .garage-door-toggle--left {
+      margin-right: 15px; }
+    .garage-door-toggles .garage-door-toggle .door {
+      height: 107px;
+      background: white;
+      transition: all 10s ease; }
+    .garage-door-toggles .garage-door-toggle .status {
+      margin-top: 10px;
+      padding: 10px;
+      border-bottom: 2px solid;
+      display: inline-block;
+      position: absolute;
+      bottom: 0;
+      left: 0; }
+    .garage-door-toggles .garage-door-toggle.opening {
+      color: orange; }
+      .garage-door-toggles .garage-door-toggle.opening .door {
+        height: 8px; }
+
 button {
   background: #155f4e;
   border: none;
