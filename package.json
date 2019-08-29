@@ -15,7 +15,7 @@
     "express": "^4.14.0",
     "express-basic-auth": "^1.2.0",
     "morgan": "^1.9.1",
-    "onoff": "^1.0.3",
+    "rpio": "^1.0.13",
     "socket.io": "^2.2.0"
   },
   "devDependencies": {
