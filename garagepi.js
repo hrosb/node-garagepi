@@ -119,7 +119,7 @@ function pollSensors(pin) {
   console.log("OpenSensor true on pin - " + pin);
 }
 
-rpio.poll(pins.left.openSensor, pollSensors, rpio.POLL_DOWN);
+//rpio.poll(pins.left.openSensor, pollSensors, rpio.POLL_LOW);
 //rpio.poll(pins.left.closedSensor, pollSensors, rpio.POLL_DOWN);
 //rpio.poll(pins.right.openSensor, pollSensors, rpio.POLL_DOWN);
 //rpio.poll(pins.left.closedSensor, pollSensors, rpio.POLL_DOWN);
