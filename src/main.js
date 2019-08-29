@@ -183,6 +183,6 @@ if (!form) {
 
 
 
-socket.on('left-door-status', function(status){
+socket.on('state-change', function(status){
   document.querySelector('.socket-info').innerHTML = status;
 });

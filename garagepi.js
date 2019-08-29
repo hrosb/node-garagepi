@@ -105,13 +105,17 @@ function pollSensors(pin) {
    */
   rpio.msleep(20);
 
-  if (rpio.read(oin.relay)) return;
+  if (rpio.read(pin)) {
+    return
+  };
+
+  socket.emit('state-change', "OpenSensor true on pin - " + pin));
 
   
-  console.log("Button pressed on pin P%d", pin.name);
+  console.log("OpenSensor true on pin - " + pin);
 }
 
-//rpio.poll(pins.left.openSensor, pollSensors, rpio.POLL_DOWN);
+rpio.poll(pins.left.openSensor, pollSensors, rpio.POLL_DOWN);
 //rpio.poll(pins.left.closedSensor, pollSensors, rpio.POLL_DOWN);
 //rpio.poll(pins.right.openSensor, pollSensors, rpio.POLL_DOWN);
 //rpio.poll(pins.left.closedSensor, pollSensors, rpio.POLL_DOWN);
