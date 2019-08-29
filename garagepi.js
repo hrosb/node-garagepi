@@ -77,8 +77,8 @@ app.get("/api/doors/status", auth.staticUserAuth, function(req, res) {
   
   const leftDoorOpen = isZero(rpio.read(pins.left.openSensor));
   const leftDoorClosed = isZero(rpio.read(pins.left.closedSensor));
-  const rightDoorClosed = isZero(rpio.read(pins.right.openSensor));
-  const rightDoorOpen = isZero(rpio.read(pins.right.closedSensor));
+  const rightDoorOpen = isZero(rpio.read(pins.right.openSensor));
+  const rightDoorClosed = isZero(rpio.read(pins.right.closedSensor));
 
   res.setHeader("Content-Type", "application/json");
   res.end(
