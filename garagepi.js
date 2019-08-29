@@ -58,16 +58,23 @@ app.get("/authenticated", function(req, res) {
   res.render("index.html");
 });
 
+function isZero(int){
+  if(int === 0){
+    return true;
+  }
+  return false;
+}
+
 app.get("/api/doors/status", auth.staticUserAuth, function(req, res) {
   let rightDoorOpen = false;
   let rightDoorClosed = true;
   let leftDoorClosed = false;
   let leftDoorOpen = true;
   if (first_arg !== "dummy") {
-    rightDoorOpen = rpio.read(pins.right.openSensor);
-    rightDoorClosed = rpio.read(pins.right.closedSensor);
-    leftDoorOpen = rpio.read(pins.left.openSensor);
-    leftDoorClosed = rpio.read(pins.left.closedSensor);
+    rightDoorOpen = isZero(rpio.read(pins.right.openSensor));
+    rightDoorClosed = isZero(rpio.read(pins.right.closedSensor));
+    leftDoorOpen = isZero(rpio.read(pins.left.openSensor));
+    leftDoorClosed = isZero(rpio.read(pins.left.closedSensor));
   }
 
   res.setHeader("Content-Type", "application/json");
