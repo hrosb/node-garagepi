@@ -30,10 +30,10 @@ var io = require("socket.io")(server);
 // Setup
 rpio.open(pins.right.openSensor, rpio.INPUT, rpio.PULL_UP);
 rpio.open(pins.right.closedSensor, rpio.INPUT, rpio.PULL_UP);
-rpio.open(pins.right.relay, rpio.OUTPUT);
+rpio.open(pins.right.relay, rpio.OUTPUT, rpio.LOW);
 rpio.open(pins.left.closedSensor, rpio.INPUT, rpio.PULL_UP);
 rpio.open(pins.left.openSensor, rpio.INPUT, rpio.PULL_UP);
-rpio.open(pins.left.relay, rpio.OUTPUT);
+rpio.open(pins.left.relay, rpio.OUTPUT, rpio.LOW);
 
 
 
@@ -97,7 +97,7 @@ app.get("/api/doors/status", auth.staticUserAuth, function(req, res) {
 
 app.get("/api/door/:side/toggle", auth.staticUserAuth, function(req, res) {
   side = req.params.side;
-  triggerRelayOn(side);
+  triggerRelay(side);
   res.end('{"success" : "true"}');
 });
 
@@ -107,19 +107,19 @@ function pollSensors(pin) {
    * can't all be caught with the 1ms polling frequency.  If the
    * pin is no longer down after the wait then ignore it.
    */
-  rpio.msleep(20);
+  //rpio.msleep(200);
 
-  if (rpio.read(pin)) {
-    return
-  };
+  //if (rpio.read(pin)) {
+  //  return
+  //};
 
-  socket.emit('state-change', "OpenSensor true on pin - " + pin);
+  //socket.emit('state-change', "OpenSensor true on pin - " + pin);
 
+  console.log('Button event on pin %d, is now %d', pin, rpio.read(pin));
   
-  console.log("OpenSensor true on pin - " + pin);
 }
 
-//rpio.poll(pins.left.openSensor, pollSensors, rpio.POLL_LOW);
+//rpio.poll(pins.left.openSensor, pollSensors, rpio.POLL_HIGH);
 //rpio.poll(pins.left.closedSensor, pollSensors, rpio.POLL_DOWN);
 //rpio.poll(pins.right.openSensor, pollSensors, rpio.POLL_DOWN);
 //rpio.poll(pins.left.closedSensor, pollSensors, rpio.POLL_DOWN);
@@ -137,11 +137,11 @@ io.on("connection", function(socket) {
 
 function triggerRelay(side){  
   /* On for 1 second */
-  rpio.write(pins[side].relay, rpio.LOW);
+  rpio.write(pins[side].relay, rpio.HIGH);
   rpio.sleep(1);
 
   /* Off for half a second (500ms) */
-  rpio.write(pins[side].relay, rpio.HIGH);
+  rpio.write(pins[side].relay, rpio.LOW);
   rpio.sleep(1);
 
 }
