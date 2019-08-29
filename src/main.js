@@ -131,13 +131,11 @@ if (!form) {
       .then(function(json) {
         console.log(json);
 
-        rightDoorStatus = getDoorState(json.leftDoorOpen, json.leftDoorClosed);
-        leftDoorStatus = getDoorState(json.rightDoorOpen, json.rightDoorClosed);
+        leftDoorStatus = getDoorState(json.leftDoorOpen, json.leftDoorClosed);
+        rightDoorStatus = getDoorState(json.rightDoorOpen, json.rightDoorClosed);
 
         setDoorClass("left", leftDoorStatus);
         setDoorClass("right", rightDoorStatus);
-
-        let result = "leftDoor: " + leftDoorStatus + "<br>rightDoor: " + rightDoorStatus;
 
         updatePicture();
 
