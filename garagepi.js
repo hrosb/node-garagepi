@@ -30,8 +30,12 @@ var io = require("socket.io")(server);
 // Setup
 rpio.open(pins.right.openSensor, rpio.INPUT, rpio.PULL_UP);
 rpio.open(pins.right.closedSensor, rpio.INPUT, rpio.PULL_UP);
+rpio.open(pins.right.relay, rpio.OUTPUT, rpio.LOW);
 rpio.open(pins.left.closedSensor, rpio.INPUT, rpio.PULL_UP);
 rpio.open(pins.left.openSensor, rpio.INPUT, rpio.PULL_UP);
+rpio.open(pins.left.relay, rpio.OUTPUT, rpio.LOW);
+
+
 
 require("console-stamp")(console, "[HH:MM:ss]");
 
