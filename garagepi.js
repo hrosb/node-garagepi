@@ -59,10 +59,10 @@ app.get("/authenticated", function(req, res) {
 });
 
 app.get("/api/doors/status", auth.staticUserAuth, function(req, res) {
-  const rightDoorOpen = false;
-  const rightDoorClosed = true;
-  const leftDoorClosed = false;
-  const leftDoorOpen = true;
+  let rightDoorOpen = false;
+  let rightDoorClosed = true;
+  let leftDoorClosed = false;
+  let leftDoorOpen = true;
   if (first_arg !== "dummy") {
     rightDoorOpen = rpio.read(pins.right.openSensor);
     rightDoorClosed = rpio.read(pins.right.closedSensor);
