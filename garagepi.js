@@ -109,7 +109,7 @@ function pollSensors(pin) {
     return
   };
 
-  socket.emit('state-change', "OpenSensor true on pin - " + pin));
+  socket.emit('state-change', "OpenSensor true on pin - " + pin);
 
   
   console.log("OpenSensor true on pin - " + pin);
