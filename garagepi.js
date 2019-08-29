@@ -34,10 +34,10 @@ if(first_arg === "dummy"){
 // Setup
 rpio.open(pins.left.openSensor, rpio.INPUT, rpio.PULL_UP);
 rpio.open(pins.left.closedSensor, rpio.INPUT, rpio.PULL_UP);
-rpio.open(pins.left.relay, rpio.OUTPUT, rpio.LOW);
+rpio.open(pins.left.relay, rpio.OUTPUT, rpio.HIGH);
 rpio.open(pins.right.closedSensor, rpio.INPUT, rpio.PULL_UP);
 rpio.open(pins.right.openSensor, rpio.INPUT, rpio.PULL_UP);
-rpio.open(pins.right.relay, rpio.OUTPUT, rpio.LOW);
+rpio.open(pins.right.relay, rpio.OUTPUT, rpio.HIGH);
 
 
 
@@ -75,9 +75,9 @@ function isZero(int){
 
 app.get("/api/doors/status", auth.staticUserAuth, function(req, res) {
   
-  const leftDoorOpen = first_arg === "dummy" ? true : isZero(rpio.read(pins.left.openSensor));
+  const leftDoorOpen = isZero(rpio.read(pins.left.openSensor));
   const leftDoorClosed = isZero(rpio.read(pins.left.closedSensor));
-  const rightDoorClosed = first_arg === "dummy" ? true : isZero(rpio.read(pins.right.openSensor));
+  const rightDoorClosed = isZero(rpio.read(pins.right.openSensor));
   const rightDoorOpen = isZero(rpio.read(pins.right.closedSensor));
 
   res.setHeader("Content-Type", "application/json");
@@ -141,11 +141,11 @@ server.listen(port, function() {
 
 function triggerRelay(side){  
   /* On for 1 second */
-  rpio.write(pins[side].relay, rpio.HIGH);
-  rpio.sleep(1);
-
-  /* Off for half a second (500ms) */
   rpio.write(pins[side].relay, rpio.LOW);
+  rpio.sleep(1);
+  
+  /* Off for half a second (500ms) */
+  rpio.write(pins[side].relay, rpio.HIGH);
   rpio.sleep(1);
 
 }

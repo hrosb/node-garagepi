@@ -156,7 +156,7 @@ if (!form) {
       .then(function(json) {
         setTimeout(() => {
           updatePicture();
-        }, 200);
+        }, 1400);
       });
   }
 
