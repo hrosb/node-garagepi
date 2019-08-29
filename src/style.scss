@@ -52,7 +52,8 @@ input, button {
 
 .garage-wrapper{
     position: relative;
-   
+    height: 300px;
+    width: 312px;
 }
 .garage-door-toggles{
     position: absolute;
@@ -70,22 +71,44 @@ input, button {
         .door{
             height: 107px;
             background: white;
-            transition: all 10s ease;
+            //transition: all 10s ease;
         }
         .status{
+            
             margin-top: 10px;
             padding: 10px;
             border-bottom: 2px solid;
             display: inline-block;
             position: absolute;
             bottom: 0;
-            left: 0;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        &.opening, &.closing{
+            color: orange;
+            .door{
+                transition: height 21s linear;
+            }
         }
 
         &.opening {
-            color: orange;
             .door {
                 height: 8px;
+            }
+        }
+        &.open {
+            color: red;
+            .door {
+                height: 8px;
+                background: red;
+            }
+        }
+
+        &.closed {
+            color: greenyellow;
+            .door {
+                box-shadow: inset 0 0 10px greenyellow;
             }
         }
     
@@ -94,106 +117,10 @@ input, button {
     }
 }
 
-button {
-    background: #155f4e;
-    border: none;
-    color: white;
-}
 
-$btn-color: rgb(117, 119, 10);
-
-.actions {
-    display: flex;
-    justify-content: center;
-
-    button {
-        margin: auto;
-        color: $btn-color;
-        border: 3px solid $btn-color;
-        padding: 10px 20px;
-        font-size: 20px;
-        background: transparent;
-        cursor: pointer;
-
-        &:hover {
-            color: hotpink;
-            border-color: hotpink;
-        }
-    }
-}
-
-#background {
-    width: 320px;
-    height: 240px;
-    background-size: 100%;
-    margin: 2em auto;
-}
-
-.buttons {
-    margin: 50px auto;
-    display: flex;
-    justify-content: center;
-
-    input {
-        display: none;
-    }
-}
-
-.result {
-    color: red;
-}
-
-$time: 10s;
-$timeFunction: ease-in-out;
-
-.checkbox-switch {
-    position: relative;
-    display: block;
-    float: left;
-    overflow: hidden;
-    margin-right: 5px;
-    width: 100px;
-    height: 100px;
-    border: 1px solid #fff;
-    border-top: none;
-    border-radius: 0;
-    background: #F0E0D3;
-    cursor: pointer;
-
-    input:checked + &:before {
-        background-position: 0 200px;
-    }
-
-    input:checked + & .y {
-        top: 65px;
-    }
-
-    &:before {
-        position: absolute;
-        top: 4px;
-        left: 4px;
-        display: block;
-        width: 92px;
-        height: 92px;
-        background: #EBDBCE;
-        background: linear-gradient(to bottom, #bc975e 0%, #977b47 50%, #b3b3b3 51%);
-        background-position: 0 100px;
-        background-size: 40px 220px;
-        box-shadow: inset 0 0 7px 0 rgba(0, 0, 0, 0.05), inset 0 4px 7px -2px rgba(0, 0, 0, 0.5), inset 0 0 10px rgba(255, 255, 255, 0.7), 0 0 5px rgba(255, 255, 255, 0.7);
-        content: "";
-        transition: background-position $time $timeFunction;
-    }
-
-    .y {
-        position: absolute;
-        top: 4px;
-        left: 35px;
-        width: 30px;
-        height: 10px;
-        border: 1px solid #BBAAA0;
-        border-radius: 5px;
-        background: #EFE9DF;
-        box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.4), 0 1px 10px 0 rgba(0, 0, 0, 0.4);
-        transition: top $time $timeFunction;
+.image{
+    img{
+        width: 100%;
+        height: auto;
     }
 }

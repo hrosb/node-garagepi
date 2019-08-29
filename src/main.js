@@ -1,10 +1,15 @@
 import style from "./style.scss";
-var socket = io();
+//var socket = io();
 const pictureTrigger = document.querySelector(".picture-trigger");
 const formResponse = document.querySelector(".form-response");
 const form = document.getElementById("login-form");
 const toggleLeft = document.querySelector(".garage-door-toggle--left");
 const toggleRight = document.querySelector(".garage-door-toggle--right");
+const toggles = {
+  left: toggleLeft,
+  right: toggleRight
+};
+
 let authenticated = false;
 
 function setHeaders(pw) {
@@ -65,9 +70,9 @@ if (existingPass) {
 }
 
 if (!form) {
-  const toggleLeftText = toggleLeft.querySelector(".status");
-  const toggleRightText = toggleRight.querySelector(".status");
-  const headers = setHeaders(localStorage.getItem('garage-pass'));
+  const headers = setHeaders(localStorage.getItem("garage-pass"));
+  let rightDoorStatus;
+  let leftDoorStatus;
 
   // 1. get state from api for both buttons
   // 2. attach event listeners
@@ -75,13 +80,23 @@ if (!form) {
   // 4. Listen to socket, and get remove opening/closing classes + add closed / open class
 
   toggleLeft.addEventListener("click", evt => {
-    console.log(this, evt.target);
-    evt.target.classList.toggle("status--closed");
-    toggleLeftText.innerHTML = "Lukker";
-    toggleLeft.classList.toggle("opening");
+    if (leftDoorStatus === "closed" || leftDoorStatus === "closing") {
+      setDoorClass("left", "opening");
+      leftDoorStatus = "opening";
+    } else {
+      setDoorClass("left", "closing");
+      leftDoorStatus = "closing";
+    }
     toggleDoor("left");
   });
   toggleRight.addEventListener("click", evt => {
+    if (rightDoorStatus === "closed" || rightDoorStatus === "closing") {
+      setDoorClass("right", "opening");
+      rightDoorStatus = "opening";
+    } else {
+      setDoorClass("right", "closing");
+      rightDoorStatus = "closing";
+    }
     toggleDoor("right");
   });
   if (pictureTrigger) {
@@ -90,40 +105,45 @@ if (!form) {
     });
   }
 
-  function getDooerState(doorOpenSensor, doorClosedSensor ){
-    if(doorOpenSensor && !doorClosedSensor){
-      return 'open';
+  function getDoorState(doorOpenSensor, doorClosedSensor) {
+    if (doorOpenSensor && !doorClosedSensor) {
+      return "open";
     }
-    if(!doorOpenSensor && doorClosedSensor){
-      return 'closed';
-    }    
-    if(!doorOpenSensor && !doorClosedSensor){
-      return 'between';
-    }    
-    if(doorOpenSensor && doorClosedSensor){
-      return 'fatal error';
-    }        
+    if (!doorOpenSensor && doorClosedSensor) {
+      return "closed";
+    }
+    if (!doorOpenSensor && !doorClosedSensor) {
+      return "between";
+    }
+    if (doorOpenSensor && doorClosedSensor) {
+      return "fatal error";
+    }
   }
 
-  fetch("api/doors/status", {
-    method: "GET",
-    headers: headers
-  })
-    .then(response => {
-      return response.json();
+  function getStatus() {
+    fetch("api/doors/status", {
+      method: "GET",
+      headers: headers
     })
-    .then(function(json) {
-      console.log(json);
+      .then(response => {
+        return response.json();
+      })
+      .then(function(json) {
+        console.log(json);
 
-      let rightDoorStatus = getDooerState(json.leftDoorOpen, json.leftDoorClosed);
-      let leftDoorStatus = getDooerState(json.rightDoorOpen, json.rightDoorClosed);
+        rightDoorStatus = getDoorState(json.leftDoorOpen, json.leftDoorClosed);
+        leftDoorStatus = getDoorState(json.rightDoorOpen, json.rightDoorClosed);
 
-      let result = "leftDoor: " + leftDoorStatus + "<br>rightDoor: " + rightDoorStatus;
+        setDoorClass("left", leftDoorStatus);
+        setDoorClass("right", rightDoorStatus);
 
-      document.querySelector(".results").innerHTML = result;
-    });
+        let result = "leftDoor: " + leftDoorStatus + "<br>rightDoor: " + rightDoorStatus;
 
+        updatePicture();
 
+      });
+  }
+  getStatus();
 
   function takePicture() {
     fetch("api/garage/picture", {
@@ -135,54 +155,79 @@ if (!form) {
       })
       .then(function(json) {
         setTimeout(() => {
-          setPicture();
+          updatePicture();
         }, 200);
       });
   }
 
-  function setPicture() {
+  function updatePicture() {
     var t = new Date().getTime();
-    var url = "url(/images/garage.jpg?t=" + t + ")";
-    const backgroundDiv = document.getElementById("background");
-    backgroundDiv.style.backgroundImage = url;
+    var url = "./images/garage.jpg?t=" + t;
+    const image = document.getElementById("image");
+    image.src = url;
   }
 
-  /* fetch("api/door/right/status", {
-  method: 'GET',
-  headers: headers
-}) .then(function(response) {
-  console.log(parseInt(response.state, 10));
-  rightState = parseInt(response.state, 10);
-  setButtonState(rightDoorBtn, rightState);
-  return response.json();
-});
- */
-  function setButtonState(button, state) {
-    console.log(button, state);
-    if (state === 1) {
-      button.setAttribute("checked", "checked");
-    } else {
-      button.removeAttribute("checked");
-    }
-  }
+
 
   function toggleDoor(side) {
-
-
     fetch("api/door/" + side + "/toggle", {
       method: "GET",
       headers: headers
-    }).then(function(response) {
-      console.log(response);
-      return response.json()
-    }).then(function(json) {
+    })
+      .then(function(response) {
+        console.log(response);
+        return response.json();
+      })
+      .then(function(json) {
         console.log(json);
-    });
+        if (json.success === "true") {
+          setTimeout(() => {
+            getStatus();
+            takePicture();
+          }, 25000);
+        }
+      });
   }
 }
 
+/* socket.on("state-change", function(status) {
+  document.querySelector(".socket-info").innerHTML = status;
+}); */
 
+function setDoorClass(side, state) {
+  if (state === "closed") {
+    toggles[side].classList.remove("opening", "closing", "open");
+    toggles[side].classList.add("closed");
+    toggles[side].querySelector(".status").innerHTML = getNbReadableState(state);
+  }
+  if (state === "open") {
+    toggles[side].classList.remove("opening", "closing", "closed");
+    toggles[side].classList.add("open");
+    toggles[side].querySelector(".status").innerHTML = getNbReadableState(state);
+  }
 
-socket.on('state-change', function(status){
-  document.querySelector('.socket-info').innerHTML = status;
-});
+  if (state === "closing") {
+    toggles[side].classList.remove("opening", "open", "closed");
+    toggles[side].classList.add("closing");
+    toggles[side].querySelector(".status").innerHTML = getNbReadableState(state);
+  }
+
+  if (state === "opening") {
+    toggles[side].classList.remove("closing", "open", "closed");
+    toggles[side].classList.add("opening");
+    toggles[side].querySelector(".status").innerHTML = getNbReadableState(state);
+  }
+}
+
+function getNbReadableState(state) {
+  switch (state) {
+    case "closed":
+      return "Lukket";
+    case "open":
+      return "Åpen";
+    case "closing":
+      return "Lukker...";
+    case "opening":
+      return "Åpner...";
+  }
+}

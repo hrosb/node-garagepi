@@ -1,39 +1,43 @@
 // Settings
 var pins = {
-  left: {
-    name: 'left',
+  right: {
+    name: 'right',
     openSensor: 16,
     closedSensor: 32,
     relay: 7
   },
-  right: {
-    name: 'right',
+  left: {
+    name: 'left',
     openSensor: 40,
     closedSensor: 36,
     relay: 11,
   }
 }
-
-
 var first_arg = process.argv[2];
+
+var rpio = require("rpio");
 
 var path = require("path");
 var logger = require("morgan");
 var bodyParser = require("body-parser");
-var rpio = require("rpio");
 var express = require("express");
 var app = express();
 var server = require("http").Server(app);
 var auth = require("./auth");
-var io = require("socket.io")(server);
+/* var io = require("socket.io")(server);
+ */
+if(first_arg === "dummy"){
+  rpio.init({mock: 'raspi-zero-w'});
+  rpio.on('warn', function() {});
+}
 
 // Setup
-rpio.open(pins.right.openSensor, rpio.INPUT, rpio.PULL_UP);
-rpio.open(pins.right.closedSensor, rpio.INPUT, rpio.PULL_UP);
-rpio.open(pins.right.relay, rpio.OUTPUT, rpio.LOW);
-rpio.open(pins.left.closedSensor, rpio.INPUT, rpio.PULL_UP);
 rpio.open(pins.left.openSensor, rpio.INPUT, rpio.PULL_UP);
+rpio.open(pins.left.closedSensor, rpio.INPUT, rpio.PULL_UP);
 rpio.open(pins.left.relay, rpio.OUTPUT, rpio.LOW);
+rpio.open(pins.right.closedSensor, rpio.INPUT, rpio.PULL_UP);
+rpio.open(pins.right.openSensor, rpio.INPUT, rpio.PULL_UP);
+rpio.open(pins.right.relay, rpio.OUTPUT, rpio.LOW);
 
 
 
@@ -70,27 +74,22 @@ function isZero(int){
 }
 
 app.get("/api/doors/status", auth.staticUserAuth, function(req, res) {
-  let rightDoorOpen = false;
-  let rightDoorClosed = true;
-  let leftDoorClosed = false;
-  let leftDoorOpen = true;
-  if (first_arg !== "dummy") {
-    rightDoorOpen = isZero(rpio.read(pins.right.openSensor));
-    rightDoorClosed = isZero(rpio.read(pins.right.closedSensor));
-    leftDoorOpen = isZero(rpio.read(pins.left.openSensor));
-    leftDoorClosed = isZero(rpio.read(pins.left.closedSensor));
-  }
+  
+  const leftDoorOpen = first_arg === "dummy" ? true : isZero(rpio.read(pins.left.openSensor));
+  const leftDoorClosed = isZero(rpio.read(pins.left.closedSensor));
+  const rightDoorClosed = first_arg === "dummy" ? true : isZero(rpio.read(pins.right.openSensor));
+  const rightDoorOpen = isZero(rpio.read(pins.right.closedSensor));
 
   res.setHeader("Content-Type", "application/json");
   res.end(
-    '{"success" : "State read", "rightDoorOpen" : ' +
-      rightDoorOpen +
-      ', "rightDoorClosed" : ' +
-      rightDoorClosed +
+    '{"success" : "State read", "leftDoorOpen" : ' +
+      leftDoorOpen +
       ', "leftDoorClosed" : ' +
       leftDoorClosed +
-      ', "leftDoorOpen" : ' +
-      leftDoorOpen +
+      ', "rightDoorClosed" : ' +
+      rightDoorClosed +
+      ', "rightDoorOpen" : ' +
+      rightDoorOpen +
       "}"
   );
 });
@@ -99,6 +98,11 @@ app.get("/api/door/:side/toggle", auth.staticUserAuth, function(req, res) {
   side = req.params.side;
   triggerRelay(side);
   res.end('{"success" : "true"}');
+});
+
+app.get("/api/garage/picture", auth.staticUserAuth, function(req, res) {
+  takePicture();
+  res.end('{"success" : "Picture taken"}');
 });
 
 function pollSensors(pin) {
@@ -119,10 +123,10 @@ function pollSensors(pin) {
   
 }
 
-//rpio.poll(pins.left.openSensor, pollSensors, rpio.POLL_HIGH);
-//rpio.poll(pins.left.closedSensor, pollSensors, rpio.POLL_DOWN);
-//rpio.poll(pins.right.openSensor, pollSensors, rpio.POLL_DOWN);
-//rpio.poll(pins.left.closedSensor, pollSensors, rpio.POLL_DOWN);
+//rpio.poll(pins.right.openSensor, pollSensors, rpio.POLL_HIGH);
+//rpio.poll(pins.right.closedSensor, pollSensors, rpio.POLL_DOWN);
+//rpio.poll(pins.left.openSensor, pollSensors, rpio.POLL_DOWN);
+//rpio.poll(pins.right.closedSensor, pollSensors, rpio.POLL_DOWN);
 
 // Start server
 var port = process.env.PORT || 8000;
@@ -130,9 +134,9 @@ server.listen(port, function() {
   console.log("GaragePi listening on port:", port);
 });
 
-io.on("connection", function(socket) {
+/* io.on("connection", function(socket) {
   console.log("a user connected");
-});
+}); */
 
 
 function triggerRelay(side){  
@@ -144,4 +148,18 @@ function triggerRelay(side){
   rpio.write(pins[side].relay, rpio.LOW);
   rpio.sleep(1);
 
+}
+
+
+function takePicture(){
+  var imgPath = path.join(__dirname, "public/images");
+  var cmd = "raspistill -w 640 -h 480 -q 80 -o " + imgPath + "/garage.jpg";
+  var exec = require("child_process").exec;
+  exec(cmd, function(error, stdout, stderr) {
+    if (error !== null) {
+      console.log("exec error: " + error);
+      return;
+    }
+    console.log("snapshot created...");
+  });
 }
