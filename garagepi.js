@@ -20,19 +20,18 @@ var first_arg = process.argv[2];
 var path = require("path");
 var logger = require("morgan");
 var bodyParser = require("body-parser");
-if (first_arg !== "dummy") {
-  var rpio = require("rpio");
-  rpio.open(pins.right.openSensor, rpio.INPUT, rpio.PULL_UP);
-  rpio.open(pins.right.closedSensor, rpio.INPUT, rpio.PULL_UP);
-  rpio.open(pins.left.closedSensor, rpio.INPUT, rpio.PULL_UP);
-  rpio.open(pins.left.openSensor, rpio.INPUT, rpio.PULL_UP);
-}
-
+var rpio = require("rpio");
 var express = require("express");
 var app = express();
-var server = require("http").createServer(app);
+var server = require("http").Server(app);
 var auth = require("./auth");
 var io = require("socket.io")(server);
+
+// Setup
+rpio.open(pins.right.openSensor, rpio.INPUT, rpio.PULL_UP);
+rpio.open(pins.right.closedSensor, rpio.INPUT, rpio.PULL_UP);
+rpio.open(pins.left.closedSensor, rpio.INPUT, rpio.PULL_UP);
+rpio.open(pins.left.openSensor, rpio.INPUT, rpio.PULL_UP);
 
 require("console-stamp")(console, "[HH:MM:ss]");
 
@@ -105,10 +104,10 @@ function pollSensors(pin) {
   console.log("Button pressed on pin P%d", pin.name);
 }
 
-rpio.poll(pins.left.openSensor, pollSensors, rpio.POLL_DOWN);
-rpio.poll(pins.left.closedSensor, pollSensors, rpio.POLL_DOWN);
-rpio.poll(pins.right.openSensor, pollSensors, rpio.POLL_DOWN);
-rpio.poll(pins.left.closedSensor, pollSensors, rpio.POLL_DOWN);
+//rpio.poll(pins.left.openSensor, pollSensors, rpio.POLL_DOWN);
+//rpio.poll(pins.left.closedSensor, pollSensors, rpio.POLL_DOWN);
+//rpio.poll(pins.right.openSensor, pollSensors, rpio.POLL_DOWN);
+//rpio.poll(pins.left.closedSensor, pollSensors, rpio.POLL_DOWN);
 
 // Start server
 var port = process.env.PORT || 8000;
@@ -120,14 +119,6 @@ io.on("connection", function(socket) {
   console.log("a user connected");
 });
 
-function intIsZero(int) {
-  if (int === 0) {
-    return true;
-  }
-  if (int === 1) {
-    return false;
-  }
-}
 
 function triggerRelay(side){  
   /* On for 1 second */
