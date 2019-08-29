@@ -30,10 +30,10 @@ var io = require("socket.io")(server);
 // Setup
 rpio.open(pins.right.openSensor, rpio.INPUT, rpio.PULL_UP);
 rpio.open(pins.right.closedSensor, rpio.INPUT, rpio.PULL_UP);
-rpio.open(pins.right.relay, rpio.OUTPUT, rpio.HIGH);
+rpio.open(pins.right.relay, rpio.OUTPUT);
 rpio.open(pins.left.closedSensor, rpio.INPUT, rpio.PULL_UP);
 rpio.open(pins.left.openSensor, rpio.INPUT, rpio.PULL_UP);
-rpio.open(pins.left.relay, rpio.OUTPUT, rpio.HIGH);
+rpio.open(pins.left.relay, rpio.OUTPUT);
 
 
 
@@ -97,7 +97,7 @@ app.get("/api/doors/status", auth.staticUserAuth, function(req, res) {
 
 app.get("/api/door/:side/toggle", auth.staticUserAuth, function(req, res) {
   side = req.params.side;
-  triggerRelay(side);
+  triggerRelayOn(side);
   res.end('{"success" : "true"}');
 });
 
@@ -142,4 +142,6 @@ function triggerRelay(side){
 
   /* Off for half a second (500ms) */
   rpio.write(pins[side].relay, rpio.HIGH);
+  rpio.sleep(1);
+
 }
