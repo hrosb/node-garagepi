@@ -81,7 +81,7 @@ input, button {
     .garage-door-toggles .garage-door-toggle.opening, .garage-door-toggles .garage-door-toggle.closing {
       color: orange; }
       .garage-door-toggles .garage-door-toggle.opening .door, .garage-door-toggles .garage-door-toggle.closing .door {
-        transition: height 17s linear; }
+        transition: height 19s linear; }
     .garage-door-toggles .garage-door-toggle.opening .door {
       height: 8px; }
     .garage-door-toggles .garage-door-toggle.open {

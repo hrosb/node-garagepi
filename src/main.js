@@ -1,5 +1,5 @@
 import style from "./style.scss";
-//var socket = io();
+var socket = io();
 const pictureTrigger = document.querySelector(".picture-trigger");
 const formResponse = document.querySelector(".form-response");
 const form = document.getElementById("login-form");
@@ -29,7 +29,6 @@ if (form) {
 }
 function authenticatePass() {
   let inputPassValue = document.getElementById("pass").value;
-  console.log(inputPassValue);
   if (!inputPassValue) {
     inputPassValue = localStorage.getItem("garage-pass");
   }
@@ -129,7 +128,6 @@ if (!form) {
         return response.json();
       })
       .then(function(json) {
-        console.log(json);
 
         leftDoorStatus = getDoorState(json.leftDoorOpen, json.leftDoorClosed);
         rightDoorStatus = getDoorState(json.rightDoorOpen, json.rightDoorClosed);
@@ -158,6 +156,7 @@ if (!form) {
         }, 4400);
       });
   }
+  
 
   function updatePicture() {
     var t = new Date().getTime();
@@ -174,16 +173,14 @@ if (!form) {
       headers: headers
     })
       .then(function(response) {
-        console.log(response);
         return response.json();
       })
       .then(function(json) {
-        console.log(json);
         if (json.success === "true") {
           setTimeout(() => {
             getStatus();
             takePicture();
-          }, 19000);
+          }, 19500);
         }
       });
   }
@@ -230,3 +227,10 @@ function getNbReadableState(state) {
       return "Åpner...";
   }
 }
+
+
+io.on('connection', function(socket){
+  socket.on('photo-taken', function(bool){
+    updatePicture();
+  });
+});

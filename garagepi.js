@@ -24,6 +24,17 @@ var express = require("express");
 var app = express();
 var server = require("http").Server(app);
 var auth = require("./auth");
+var piCamera = require('pi-camera');
+var camera = new PiCamera({
+  mode: 'photo',
+  output: path.join(__dirname, "public/images"),
+  width: 640,
+  height: 480,
+  nopreview: true,
+  timeout:0
+});
+
+
 /* var io = require("socket.io")(server);
  */
 if(first_arg === "dummy"){
@@ -152,14 +163,11 @@ function triggerRelay(side){
 
 // Bytt til: https://github.com/stetsmando/pi-camera
 function takePicture(){
-  var imgPath = path.join(__dirname, "public/images");
-  var cmd = "raspistill -w 640 -h 480 -q 80 -o " + imgPath + "/garage.jpg";
-  var exec = require("child_process").exec;
-  exec(cmd, function(error, stdout, stderr) {
-    if (error !== null) {
-      console.log("exec error: " + error);
-      return;
-    }
-    console.log("snapshot created...");
+  camera.snap()
+  .then((result) => {
+      socket.emit('photo-taken', true);
+  })
+  .catch((error) => {
+     // Handle your error
   });
 }
