@@ -150,7 +150,7 @@ function triggerRelay(side){
 
 }
 
-
+// Bytt til: https://github.com/stetsmando/pi-camera
 function takePicture(){
   var imgPath = path.join(__dirname, "public/images");
   var cmd = "raspistill -w 640 -h 480 -q 80 -o " + imgPath + "/garage.jpg";

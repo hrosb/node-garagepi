@@ -1,12 +1,16 @@
+$time_to_open_door: 17s;
+
 body {
     background: #111;
     color: white;
     font: 16px/23px sans-serif;
+    margin: 0;
+    padding: 0;
 }
 
 .container {
     margin: auto;
-    padding: 20px;
+    padding: 30px 0;
     text-align: center;
 }
 
@@ -53,6 +57,7 @@ input, button {
     position: relative;
     height: 300px;
     width: 312px;
+    margin: 0 auto;
 }
 .garage-door-toggles{
     position: absolute;
@@ -87,7 +92,7 @@ input, button {
         &.opening, &.closing{
             color: orange;
             .door{
-                transition: height 21s linear;
+                transition: height $time_to_open_door linear;
             }
         }
 

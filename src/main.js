@@ -146,6 +146,7 @@ if (!form) {
   function takePicture() {
     fetch("api/garage/picture", {
       method: "GET",
+      
       headers: headers
     })
       .then(response => {
@@ -154,7 +155,7 @@ if (!form) {
       .then(function(json) {
         setTimeout(() => {
           updatePicture();
-        }, 1400);
+        }, 4400);
       });
   }
 
@@ -182,7 +183,7 @@ if (!form) {
           setTimeout(() => {
             getStatus();
             takePicture();
-          }, 25000);
+          }, 19000);
         }
       });
   }
