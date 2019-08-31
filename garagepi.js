@@ -30,7 +30,7 @@ var camera = new PiCamera({
   output: path.join(__dirname, "public/images"),
   width: 640,
   height: 480,
-  nopreview: true,
+  timestamp: true,
   timeout:0
 });
 
