@@ -1,5 +1,4 @@
 import style from "./style.scss";
-var socket = io();
 const pictureTrigger = document.querySelector(".picture-trigger");
 const formResponse = document.querySelector(".form-response");
 const form = document.getElementById("login-form");

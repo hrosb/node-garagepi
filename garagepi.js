@@ -22,9 +22,9 @@ var logger = require("morgan");
 var bodyParser = require("body-parser");
 var express = require("express");
 var app = express();
-var server = require("http").Server(app);
+var server = require("http").createServer(app);
 var auth = require("./auth");
-var piCamera = require('pi-camera');
+var PiCamera = require('pi-camera');
 var camera = new PiCamera({
   mode: 'photo',
   output: path.join(__dirname, "public/images"),
@@ -34,9 +34,8 @@ var camera = new PiCamera({
   timeout:0
 });
 
+var io = require('socket.io')(server);
 
-/* var io = require("socket.io")(server);
- */
 if(first_arg === "dummy"){
   rpio.init({mock: 'raspi-zero-w'});
   rpio.on('warn', function() {});

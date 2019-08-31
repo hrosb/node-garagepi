@@ -16,11 +16,6 @@
 
       <title>Garasjen</title>
 
-      <script>
-            if('serviceWorker' in navigator) {
-                  navigator.serviceWorker.register('sw.js');
-            };
-      </script>
 </head>
 
 <body>
@@ -202,7 +197,7 @@
 </body>
 <script src="/socket.io/socket.io.js"></script>
 <script>
-  var socket = io();
+  var io = io();
 </script>
 <script src="main.js"></script>
 
