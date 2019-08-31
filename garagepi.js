@@ -30,8 +30,8 @@ var camera = new PiCamera({
   output: path.join(__dirname, "public/images"),
   width: 640,
   height: 480,
-  timestamp: true,
-  timeout:0
+  nopreview: true,
+  timestamp: true
 });
 
 var io = require('socket.io')(server);
