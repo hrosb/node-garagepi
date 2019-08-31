@@ -27,7 +27,7 @@ var auth = require("./auth");
 var PiCamera = require('pi-camera');
 var camera = new PiCamera({
   mode: 'photo',
-  output: path.join(__dirname, "public/images"),
+  output: path.join(__dirname, "public/images/bilde.jpg"),
   width: 640,
   height: 480,
   nopreview: true,

@@ -159,7 +159,7 @@ if (!form) {
 
   function updatePicture() {
     var t = new Date().getTime();
-    var url = "./images/garage.jpg?t=" + t;
+    var url = "./images/bilde.jpg?t=" + t;
     const image = document.getElementById("image");
     image.src = url;
   }
