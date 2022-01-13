@@ -32,7 +32,8 @@ var camera = new PiCamera({
   height: 480,
   nopreview: true,
   timestamp: true,
-  hflip: true
+  hflip: true,
+  vflip: true
 });
 
 var io = require('socket.io')(server);
